@@ -8,10 +8,13 @@ router.get('/', function (req, res) {
 });
 
 router.post('/', function (req, res) {
-	res.send('OK');
+	reviewsTest.push(res.json[0]);
+	res.send(reviewsTest);
 });
 
 router.delete('/', function (req, res) {
-	res.send('OK');
+	reviewsTest = undefined;
+	res.send(reviewsTest);
 });
+
 module.exports = router;
