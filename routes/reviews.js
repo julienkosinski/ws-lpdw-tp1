@@ -1,40 +1,72 @@
 var express = require('express');
 var router = express.Router();
+var reviewsSchema = require('../database/schema');
 
-var reviewsTest = [{name:"McDo", placeType:"Fastfood", stars: 3}, {name:"McDo", placeType:"Fastfood", stars: 3}];
+//var reviewsTest = [{name:"McDo", placeType:"Fastfood", stars: 3}, {name:"McDo", placeType:"Fastfood", stars: 3}];
 
-router.get('/', function (req, res) {
-	res.send(reviewsTest);
+router.route('/')
+.get(function (req, res) {
+	reviewsSchema.find({}, function (err, reviews) {
+		if (err) {
+			res.status(500).send({'error': err});
+		} else {
+			res.send(reviews);
+		}
+	});
 });
 
-router.post('/', function (req, res) {
-	reviewsTest.push(req.body);
-	res.status(201);
-	res.send(reviewsTest);
+router.route('/')
+.post(function (req, res) {
+	if(!req.body.name || !req.body.placeType || !req.body.stars) {
+		res.status(400).send("Please enter every parameters required.");
+	} else {
+		var review = {
+			name: req.body.name,
+			placeType: req.body.placeType,
+			stars: req.body.stars
+		};
+		reviewsSchema.create(review, function (err, review) {
+			if(err){
+				res.status(500);
+			}
+			else{
+				res.status(201);
+				res.send(review);
+			}
+		});
+	}
 });
 
 router.delete('/', function (req, res) {
-	reviewsTest = undefined;
-	res.status(204);
-	res.send(reviewsTest);
+	reviewsSchema.remove(function (err) {
+		if(err){
+			res.status(404).send();
+		}
+		else{
+			res.status(204).send();
+		}
+	});
 });
 
 router.get('/:id', function (req, res) {
-	if(reviewsTest[req.params.id] !== undefined){
-		res.send(reviewsTest[req.params.id]);
-	} else {
-		res.send(404);
-	}
+	reviewsSchema.findOne({_id: req.params.id}, function (err, review) {
+		if(err){
+			res.send(404);
+		} else {
+			res.status(201).send(review);
+		}
+	});
 });
 
 router.put('/:id', function(req, res){
-	if(reviewsTest[req.params.id] !== undefined){
-		reviewsTest[req.params.id] = req.query;
-		res.status(201);
-		res.send(reviewsTest);
-	} else {
-		res.send(404);
-	}
+	reviewsSchema.findOneAndUpdate({_id: req.params.id}, req.body, function (err, review) {
+		if(err) {
+			res.send(404);
+		} else {
+			res.status(201);
+			res.send(review);
+		}
+	});
 });
 
 router.delete('/:id', function(req, res){
