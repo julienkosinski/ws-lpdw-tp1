@@ -10,7 +10,12 @@ router.route('/')
 		if (err) {
 			res.status(500).send({'error': err});
 		} else {
-			res.send(reviews);
+			if (req.get('Accept').toString().match(/html/)) {
+				res.render('reviews', {reviews: reviews});
+			}
+			else {
+				res.send(reviews);
+			}
 		}
 	});
 });
