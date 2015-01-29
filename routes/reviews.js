@@ -40,7 +40,7 @@ router.route('/')
 router.delete('/', function (req, res) {
 	reviewsSchema.remove(function (err) {
 		if(err){
-			res.status(404).send();
+			res.status(500).send();
 		}
 		else{
 			res.status(204).send();
