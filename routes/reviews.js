@@ -8,12 +8,14 @@ router.get('/', function (req, res) {
 });
 
 router.post('/', function (req, res) {
-	reviewsTest.push(res.json[0]);
+	reviewsTest.push(req.body);
+	res.status(201);
 	res.send(reviewsTest);
 });
 
 router.delete('/', function (req, res) {
 	reviewsTest = undefined;
+	res.status(204);
 	res.send(reviewsTest);
 });
 
@@ -28,20 +30,19 @@ router.get('/:id', function (req, res) {
 router.put('/:id', function(req, res){
 	if(reviewsTest[req.params.id] !== undefined){
 		reviewsTest[req.params.id] = req.query;
-		res.send('The review has been updated!');
+		res.status(201);
+		res.send(reviewsTest);
 	} else {
-		res.status('404');
-		res.send('The id does not exists.');
+		res.send(404);
 	}
 });
 
-router.delete('/:id', function(req, res, next){
+router.delete('/:id', function(req, res){
 	if(reviewsTest[req.params.id] !== undefined){	
 		reviewsTest.splice(req.params.id, 1);
 		res.send('The review has been deleted!');
 	} else {
-		res.status('404');
-		res.send('The id does not exists.');
+		res.send(404);
 	}
 });
 
