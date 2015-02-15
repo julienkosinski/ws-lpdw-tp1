@@ -53,7 +53,7 @@ router.get('/:id', function (req, res) {
 		if(err){
 			res.send(404);
 		} else {
-			res.status(201).send(review);
+			res.send(review);
 		}
 	});
 });
@@ -63,8 +63,7 @@ router.put('/:id', function(req, res){
 		if(err) {
 			res.send(404);
 		} else {
-			res.status(201);
-			res.send(review);
+			res.status(201).send(review);
 		}
 	});
 });
