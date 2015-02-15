@@ -10,6 +10,9 @@ var users = require('./routes/users');
 var reviews = require('./routes/reviews');
 var database = require('./database/index');
 
+var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+var xhr = new XMLHttpRequest();
+
 var app = express();
 
 // view engine setup
