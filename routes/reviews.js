@@ -58,7 +58,12 @@ router.get('/:id', function (req, res) {
 		if(err){
 			res.send(404);
 		} else {
-			res.send(review);
+			if (req.get('Accept').toString().match(/html/)) {
+				res.render('review', {review: review});
+			}
+			else {
+				res.send(review);
+			}
 		}
 	});
 });
