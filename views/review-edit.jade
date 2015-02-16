@@ -1,0 +1,15 @@
+extends layout
+
+block content
+
+	form(action="javascript:void(0);")
+		label(for="name")= "Name"
+		input(type="text" id="name" name="name" value="#{review.name}")
+		label(for="placeType")= "Place Type"
+		input(type="text" id="placeType" name="placeType" value="#{review.placeType}")
+		label(for="stars")= "Stars"
+		input(type="text" id="stars" name="stars" value="#{review.stars}")
+		button(onclick="editThisReview('"+review.id+"');")= "Submit"
+	button(onclick="location.href='/reviews/"+review.id+"'")= "Close"
+	p
+		a(href="/reviews/")= "ALL REVIEWS"

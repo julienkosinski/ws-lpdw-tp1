@@ -6,3 +6,8 @@ body {
 a {
   color: #00B7FF;
 }
+
+.reviews p {
+	display: inline-block;
+	margin-right: 30px;
+}

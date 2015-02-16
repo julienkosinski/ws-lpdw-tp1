@@ -58,7 +58,12 @@ router.get('/:id', function (req, res) {
 		if(err){
 			res.send(404);
 		} else {
-			res.status(201).send(review);
+			if (req.get('Accept').toString().match(/html/)) {
+				res.render('review', {review: review});
+			}
+			else {
+				res.send(review);
+			}
 		}
 	});
 });
@@ -68,19 +73,34 @@ router.put('/:id', function(req, res){
 		if(err) {
 			res.send(404);
 		} else {
-			res.status(201);
-			res.send(review);
+			res.status(201).send(review);
 		}
 	});
 });
 
 router.delete('/:id', function(req, res){
-	if(reviewsTest[req.params.id] !== undefined){	
-		reviewsTest.splice(req.params.id, 1);
-		res.send('The review has been deleted!');
-	} else {
-		res.send(404);
-	}
+	reviewsSchema.findOneAndRemove({_id: req.params.id}, req.body, function (err, review) {
+		if(err) {
+			res.send(404);
+		} else {
+			res.send('The review has been deleted!');
+		}
+	});
+});
+
+router.get('/edit/:id', function(req,res){
+	reviewsSchema.findOne({_id: req.params.id}, function (err, review) {
+		if(err){
+			res.send(404);
+		} else {
+			if (req.get('Accept').toString().match(/html/)) {
+				res.render('review-edit', {review: review});
+			}
+			else {
+				res.status(400).send("This view is browser specific!");
+			}
+		}
+	});
 });
 
 module.exports = router;
