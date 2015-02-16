@@ -12,7 +12,7 @@ block content
 			each review in reviews
 				tr
 					td
-						a(href="#" onclick="deleteCall('"+review.id+"');")
+						a(href="#" onclick="deleteThisReview('"+review.id+"');")
 							img(src="/images/del.png")
 					td
 						a(href="/reviews/"+review.id)= review.name

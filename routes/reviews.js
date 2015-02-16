@@ -88,4 +88,19 @@ router.delete('/:id', function(req, res){
 	});
 });
 
+router.get('/edit/:id', function(req,res){
+	reviewsSchema.findOne({_id: req.params.id}, function (err, review) {
+		if(err){
+			res.send(404);
+		} else {
+			if (req.get('Accept').toString().match(/html/)) {
+				res.render('review-edit', {review: review});
+			}
+			else {
+				res.status(400).send("This view is browser specific!");
+			}
+		}
+	});
+});
+
 module.exports = router;

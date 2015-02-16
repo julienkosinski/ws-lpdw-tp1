@@ -2,7 +2,8 @@ extends layout
 
 block content
 
-	img(src="/images/edit.png")
+	a(href="/reviews/edit/"+review.id)
+		img(src="/images/edit.png")
 	h1 #{review.name}
 	h2 #{review.placeType}
 	p
