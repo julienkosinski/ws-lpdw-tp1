@@ -6,7 +6,7 @@ block content
 	h1 #{review.name}
 	h2 #{review.placeType}
 	p
-		-for(var i=0; i<=review.stars; i++)
+		-for(var i=0; i<review.stars; i++)
 			img(src="/images/star.png")
 	p
 		a(href="/reviews/")= "ALL REVIEWS"
