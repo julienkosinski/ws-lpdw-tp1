@@ -79,12 +79,13 @@ router.put('/:id', function(req, res){
 });
 
 router.delete('/:id', function(req, res){
-	if(reviewsTest[req.params.id] !== undefined){	
-		reviewsTest.splice(req.params.id, 1);
-		res.send('The review has been deleted!');
-	} else {
-		res.send(404);
-	}
+	reviewsSchema.findOneAndRemove({_id: req.params.id}, req.body, function (err, review) {
+		if(err) {
+			res.send(404);
+		} else {
+			res.send('The review has been deleted!');
+		}
+	});
 });
 
 module.exports = router;
