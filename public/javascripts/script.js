@@ -1,5 +1,6 @@
 function deleteCall(id) {
 	var xhr = new XMLHttpRequest();
-	xhr.open("DELETE", document.referrer+"reviews/"+id, true);
+	xhr.open("DELETE", "/reviews/"+id, true);
 	xhr.send();
+	location.reload();
 }
