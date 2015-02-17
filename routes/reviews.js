@@ -60,7 +60,6 @@ router.route('/')
 
 router.route('/add') 
 	.get(function (req, res) {
-		console.log('here');
 		if (req.get('Accept').toString().match(/html/)) {
 			res.render('review-add');
 		}
@@ -69,6 +68,44 @@ router.route('/add')
 		}
 	})
 ;
+
+router.route('/topPlaces') 
+	.get(function (req, res) {
+		reviewsSchema
+			.find()
+			.sort({ stars : -1})
+			.limit(3)
+			.exec(function (err, reviews) {
+				if (req.get('Accept').toString().match(/html/)) {
+					res.render('reviews', {reviews: reviews});
+				}
+				else {
+					res.send(reviews);
+				}
+			});
+	})
+;
+
+/*router.route('/topPlaces') 
+	.get(function (req, res) {
+		reviewsSchema
+.where('age').gte()
+.select('name', 'age', 'tags')
+.limit(3)
+.asc('stars')
+.slaveOk()
+.hint({ age: 1, name: 1 })
+.exec(callback);
+	reviewsSchema.find(review, function (err, review) {
+			if (req.get('Accept').toString().match(/html/)) {
+				res.render('review-top');
+			}
+			else {
+				res.send(reviews);
+			}
+		});
+	})
+;*/
 
 router.route('/:id') 
 	.get( function (req, res) {
