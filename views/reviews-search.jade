@@ -1,0 +1,15 @@
+extends layout
+
+block content
+
+	form(method="get")
+		// This form allows multiple filters.
+		label(for="name")= "Name"
+		input(type="text" id="name" name="name")
+		label(for="placeType")= "Place Type"
+		input(type="text" id="placeType" name="placeType")
+		label(for="stars")= "Stars"
+		input(type="text" id="stars" name="stars")
+		input(type="submit" value="Submit")
+	p
+		a(href="/reviews/")= "ALL REVIEWS"
