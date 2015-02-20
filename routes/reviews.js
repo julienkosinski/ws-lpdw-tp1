@@ -86,26 +86,63 @@ router.route('/topPlaces')
 	})
 ;
 
-/*router.route('/topPlaces') 
+router.route('/search') 
 	.get(function (req, res) {
-		reviewsSchema
-.where('age').gte()
-.select('name', 'age', 'tags')
-.limit(3)
-.asc('stars')
-.slaveOk()
-.hint({ age: 1, name: 1 })
-.exec(callback);
-	reviewsSchema.find(review, function (err, review) {
-			if (req.get('Accept').toString().match(/html/)) {
-				res.render('review-top');
+		if (req.get('Accept').toString().match(/html/) && Object.keys(req.query).length === 0) {
+			res.render('reviews-search');
+		}
+		else {
+			if (req.query.name!== undefined || req.query.placeType!== undefined || req.query.stars!== undefined){
+				var returnedReviews = [];
+				// I allow multiple filter but it should be with something to avoid double
+				 if (req.query.name){
+		 			reviewsSchema
+						.find()
+						.where('name').equals(req.query.name)
+						.exec(function (err, reviews) {
+							console.log(reviews);
+							reviews.forEach (function(review) {
+								returnedReviews.push(review);
+							});
+						});
+				 }
+ 				 if (req.query.placeType){
+		 			reviewsSchema
+						.find()
+						.where('placeType').equals(req.query.placeType)
+						.exec(function (err, reviews) {
+							reviews.forEach (function(review) {
+								returnedReviews.push(review);
+							});
+						});
+				 }
+ 				 if (req.query.stars){
+		 			reviewsSchema
+						.find()
+						.where('stars').equals(req.query.stars)
+						.exec(function (err, reviews) {
+							reviews.forEach (function(review) {
+								returnedReviews.push(review);
+							});
+						});
+				 }
+				reviewsSchema
+				.find(function (err, reviews) {
+					if (req.get('Accept').toString().match(/html/)) {
+						console.log(req.query);
+						res.render('reviews', {reviews: returnedReviews});
+					}
+					else {
+						res.send(returnedReviews);
+					}
+				});
 			}
 			else {
-				res.send(reviews);
+				res.status(400).send("Please enter one of the three required parameters!");
 			}
-		});
+		}
 	})
-;*/
+;
 
 router.route('/:id') 
 	.get( function (req, res) {
