@@ -1,0 +1,24 @@
+extends layout
+
+block content
+	table
+		thead
+			tr
+				td Delete IT
+				td Name
+				td Place Type
+				td Stars
+		tbody
+			each review in reviews
+				tr
+					td
+						a(href="#" onclick="deleteThisReview('"+review.id+"');")
+							img(src="/images/del.png")
+					td
+						a(href="/reviews/"+review.id)= review.name
+					td= review.placeType	 
+					td
+						-for(var i=0; i<review.stars; i++)
+							img(src="/images/star.png")
+	p
+		a(href="/reviews/add")="ADD A REVIEW"
